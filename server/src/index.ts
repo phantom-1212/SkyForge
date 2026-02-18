@@ -60,7 +60,7 @@ app.set('io', io);
 const PORT = process.env.PORT || 3001;
 
 server.listen(PORT, () => {
-    console.log(`🚀 SkyForge server running on port ${PORT}`);
+    console.log(`🚀 SkyForge server v2 (Piston Fallback) running on port ${PORT}`);
 });
 
 export { io };

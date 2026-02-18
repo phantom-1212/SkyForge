@@ -145,8 +145,8 @@ export class DockerExecutor {
         // Map SkyForge languages to Piston runtimes
         const langMap: Record<string, string> = {
             python: 'python',
-            node: 'javascript',
-            javascript: 'javascript',
+            node: 'node',
+            javascript: 'node',
             typescript: 'typescript',
             java: 'java',
             c: 'c',
@@ -164,7 +164,11 @@ export class DockerExecutor {
         try {
             const response = await fetch('https://emkc.org/api/v2/piston/execute', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers: {
+                    'Content-Type': 'application/json',
+                    'User-Agent': 'SkyForge-Browser-IDE/1.0',
+                    'Accept': 'application/json'
+                },
                 body: JSON.stringify({
                     language,
                     version,
@@ -173,7 +177,8 @@ export class DockerExecutor {
             });
 
             if (!response.ok) {
-                throw new Error(`Piston API Error: ${response.statusText}`);
+                const errorText = await response.text();
+                throw new Error(`Piston API Error ${response.status}: ${response.statusText} - ${errorText}`);
             }
 
             const data = await response.json() as any;

@@ -43,6 +43,25 @@ export class DockerExecutor {
     };
 
     async execute(config: ExecutionConfig): Promise<ExecutionResult> {
+        try {
+            return await this.executeDocker(config);
+        } catch (err: any) {
+            // Fallback to Piston API if Docker isn't available (e.g. on Render free tier)
+            if (err.message.includes('ENOENT') || err.message.includes('connect') || err.message.includes('socket')) {
+                console.log('⚠️ Docker unavailable. Falling back to Piston API...');
+                return await this.executePiston(config);
+            }
+            // Return error if it's not a connection issue
+            return {
+                output: '',
+                error: `Execution Logic Error: ${err.message}`,
+                exitCode: 1,
+                executionTime: 0
+            };
+        }
+    }
+
+    private async executeDocker(config: ExecutionConfig): Promise<ExecutionResult> {
         const startTime = Date.now();
         const timeout = config.timeout || DockerExecutor.RESOURCE_LIMITS.Timeout;
         const imageName = DockerExecutor.IMAGE_MAP[config.language];
@@ -106,11 +125,10 @@ export class DockerExecutor {
             await container.remove({ force: true });
 
         } catch (err: any) {
-            error = `Execution error: ${err.message}`;
-            exitCode = 1;
             if (container) {
                 try { await container.remove({ force: true }); } catch (_) { }
             }
+            throw err; // Re-throw to trigger fallback
         }
 
         return {
@@ -119,6 +137,61 @@ export class DockerExecutor {
             exitCode,
             executionTime: Date.now() - startTime,
         };
+    }
+
+    private async executePiston(config: ExecutionConfig): Promise<ExecutionResult> {
+        const startTime = Date.now();
+
+        // Map SkyForge languages to Piston runtimes
+        const langMap: Record<string, string> = {
+            python: 'python',
+            node: 'javascript',
+            javascript: 'javascript',
+            typescript: 'typescript',
+            java: 'java',
+            c: 'c',
+            csharp: 'csharp',
+            go: 'go',
+            rust: 'rust',
+            ruby: 'ruby',
+            php: 'php',
+            bash: 'bash'
+        };
+
+        const language = langMap[config.language] || config.language;
+        const version = '*'; // Use latest available
+
+        try {
+            const response = await fetch('https://emkc.org/api/v2/piston/execute', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    language,
+                    version,
+                    files: [{ content: config.code }]
+                })
+            });
+
+            if (!response.ok) {
+                throw new Error(`Piston API Error: ${response.statusText}`);
+            }
+
+            const data = await response.json() as any;
+
+            return {
+                output: data.run.stdout || '',
+                error: data.run.stderr || '',
+                exitCode: data.run.code,
+                executionTime: Date.now() - startTime
+            };
+        } catch (err: any) {
+            return {
+                output: '',
+                error: `Cloud Execution Failed: ${err.message}`,
+                exitCode: 1,
+                executionTime: Date.now() - startTime
+            };
+        }
     }
 
     private getCommand(language: Language, code: string): string[] {
@@ -174,6 +247,8 @@ export class DockerExecutor {
                 langs.map(lang => [lang, imageNames.includes(DockerExecutor.IMAGE_MAP[lang])])
             ) as Record<Language, boolean>;
         } catch (err) {
+            // Return all false if docker is down, but true if we are using Piston implicitly? 
+            // Better to show false so user knows local docker is down, but execution will still work via fallback.
             return {
                 python: false, node: false, javascript: false, java: false,
                 c: false, csharp: false, go: false, rust: false,

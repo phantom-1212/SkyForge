@@ -148,6 +148,7 @@ export default function EditorPage() {
     const [error, setError] = useState('');
     const [isRunning, setIsRunning] = useState(false);
     const [executionTime, setExecutionTime] = useState<number | null>(null);
+    const [executionMethod, setExecutionMethod] = useState<'docker' | 'piston' | null>(null);
 
     const handleLanguageChange = (newLang: Language) => {
         setLanguage(newLang);
@@ -155,6 +156,7 @@ export default function EditorPage() {
         setOutput('');
         setError('');
         setExecutionTime(null);
+        setExecutionMethod(null);
     };
 
     const runCode = async () => {
@@ -162,6 +164,7 @@ export default function EditorPage() {
         setOutput('');
         setError('');
         setExecutionTime(null);
+        setExecutionMethod(null);
 
         try {
             const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001'}/api/code/run`, { language, code });
@@ -171,6 +174,7 @@ export default function EditorPage() {
                 setError(response.data.error || 'Execution failed');
             }
             setExecutionTime(response.data.executionTime);
+            setExecutionMethod(response.data.method);
         } catch (err: any) {
             setError(err.response?.data?.error || err.message || 'Failed to execute code');
         } finally {
@@ -289,7 +293,18 @@ export default function EditorPage() {
                         </>
                     )}
                 </div>
-                <div className="text-gray-600">Docker Sandbox</div>
+
+                <div className="flex items-center gap-4">
+                    {executionMethod && (
+                        <div className="flex items-center gap-1.5 px-2 py-0.5 rounded bg-gray-700/50 border border-gray-600">
+                            <span className={`w-1.5 h-1.5 rounded-full ${executionMethod === 'docker' ? 'bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.6)]' : 'bg-yellow-500 shadow-[0_0_8px_rgba(234,179,8,0.6)]'}`} />
+                            <span className="text-[10px] uppercase tracking-wider font-semibold text-gray-300">
+                                {executionMethod === 'docker' ? 'Local Sandbox' : 'Cloud Fallback'}
+                            </span>
+                        </div>
+                    )}
+                    <div className="text-gray-600">Docker Sandbox</div>
+                </div>
             </footer>
         </div>
     );

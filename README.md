@@ -6,9 +6,10 @@ A browser-based development platform that enables developers to create, run, and
 
 ✨ **Instant Setup** - No installation required, start coding immediately  
 🔒 **Secure Execution** - Code runs in isolated Docker containers  
-🚀 **Multi-Language Support** - Python 3.11 and Node.js 20  
+🚀 **Multi-Language Support** - Python, Node.js, Go, Rust, Java, C, C#, Ruby, PHP, TypeScript, Bash  
 ⚡ **Real-Time Output** - See results instantly in the console  
 🎨 **Modern UI** - Beautiful interface powered by Monaco Editor (VS Code engine)
+
 
 ## Prerequisites
 
@@ -33,9 +34,20 @@ chmod +x build.sh
 ./build.sh
 ```
 
-This creates two Docker images:
-- `wolfforge-python:latest` - Python 3.11 execution environment
-- `wolfforge-node:latest` - Node.js 20 execution environment
+This creates execution environment images for all supported languages:
+- `wolfforge-python:latest`
+- `wolfforge-node:latest`
+- `wolfforge-java:latest`
+- `wolfforge-javascript:latest`
+- `wolfforge-c:latest`
+- `wolfforge-csharp:latest`
+- `wolfforge-go:latest`
+- `wolfforge-rust:latest`
+- `wolfforge-ruby:latest`
+- `wolfforge-php:latest`
+- `wolfforge-typescript:latest`
+- `wolfforge-bash:latest`
+
 
 ### 2. Start Backend Server
 

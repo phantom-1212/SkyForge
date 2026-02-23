@@ -10,5 +10,8 @@ services:
         value: production
       - key: FRONTEND_URL
         sync: false   # Set this manually in Render dashboard to your Vercel URL
-    # IMPORTANT: You must mount the Docker socket in Render dashboard:
+      - key: JUDGE0_API_KEY
+        sync: false   # Get a key from rapidapi.com/judge0/api/judge0-ce
+      - key: JUDGE0_HOST
+        value: https://judge0-ce.p.rapidapi.com
     # Add a Disk or use a privileged runner — see deployment guide.

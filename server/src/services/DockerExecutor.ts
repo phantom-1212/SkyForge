@@ -194,8 +194,9 @@ export class DockerExecutor {
 
             if (!response.ok) {
                 const errorText = await response.text();
-                if (response.status === 401) {
-                    throw new Error(`Piston API is now private/whitelist-only. Since WolfForge is designed to run code locally, please ensure Docker Desktop is running on your machine.`);
+                if (response.status === 401 || response.status === 403) {
+                    console.log('⚠️ Piston API is restricted. Trying Judge0...');
+                    return await this.executeJudge0(config);
                 }
                 throw new Error(`Piston API Error ${response.status}: ${response.statusText} - ${errorText}`);
             }
@@ -210,9 +211,80 @@ export class DockerExecutor {
                 method: 'piston'
             };
         } catch (err: any) {
+            // If Piston failed (and wasn't handled by 401 redirect), try Judge0 as final attempt
+            console.log(`⚠️ Piston Fallback Failed: ${err.message}. Final attempt via Judge0...`);
+            return await this.executeJudge0(config);
+        }
+    }
+
+    private async executeJudge0(config: ExecutionConfig): Promise<ExecutionResult> {
+        const startTime = Date.now();
+        const judge0Host = process.env.JUDGE0_HOST || 'https://judge0-ce.p.rapidapi.com';
+        const judge0Key = process.env.JUDGE0_API_KEY;
+
+        if (!judge0Key && !process.env.JUDGE0_URL) {
             return {
                 output: '',
-                error: `Cloud Execution Failed: ${err.message}`,
+                error: `Cloud Execution Failed: Piston is restricted and Judge0 is not configured. Please start Docker Desktop for a better experience, or configure JUDGE0_API_KEY for the cloud version.`,
+                exitCode: 1,
+                executionTime: Date.now() - startTime,
+                method: 'piston' // Using piston method name to indicate cloud failure
+            };
+        }
+
+        // Map SkyForge languages to Judge0 IDs
+        const judge0LangMap: Record<string, number> = {
+            python: 71, node: 63, javascript: 63, typescript: 74,
+            java: 62, c: 50, csharp: 51, go: 60, rust: 75,
+            ruby: 72, php: 68, bash: 46
+        };
+
+        const languageId = judge0LangMap[config.language];
+        if (!languageId) {
+            return {
+                output: '',
+                error: `Judge0 doesn't support language: ${config.language}`,
+                exitCode: 1,
+                executionTime: Date.now() - startTime,
+                method: 'piston'
+            };
+        }
+
+        try {
+            const response = await fetch(`${judge0Host}/submissions?base64_encoded=true&wait=true`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-RapidAPI-Key': judge0Key || '',
+                    'X-RapidAPI-Host': 'judge0-ce.p.rapidapi.com'
+                },
+                body: JSON.stringify({
+                    language_id: languageId,
+                    source_code: Buffer.from(config.code).toString('base64'),
+                })
+            });
+
+            if (!response.ok) {
+                const text = await response.text();
+                throw new Error(`Judge0 API Error ${response.status}: ${text}`);
+            }
+
+            const data = await response.json() as any;
+            const stdout = data.stdout ? Buffer.from(data.stdout, 'base64').toString() : '';
+            const stderr = data.stderr ? Buffer.from(data.stderr, 'base64').toString() : '';
+            const compileOutput = data.compile_output ? Buffer.from(data.compile_output, 'base64').toString() : '';
+
+            return {
+                output: stdout.trim(),
+                error: (stderr + '\n' + compileOutput).trim(),
+                exitCode: data.status?.id === 3 ? 0 : 1, // 3 is "Accepted"
+                executionTime: Date.now() - startTime,
+                method: 'piston' // Re-using method name for cloud fallback
+            };
+        } catch (err: any) {
+            return {
+                output: '',
+                error: `All Cloud Execution fallbacks failed.\n1. Piston (Whitelist required)\n2. Judge0 (${err.message}).\n\nPRO TIP: Run code on localhost by starting Docker Desktop!`,
                 exitCode: 1,
                 executionTime: Date.now() - startTime,
                 method: 'piston'

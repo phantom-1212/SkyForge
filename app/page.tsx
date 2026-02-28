@@ -65,124 +65,249 @@ function IconRocket() {
   );
 }
 
+function IconTerminal() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" className="w-5 h-5" stroke="currentColor" strokeWidth={2}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+    </svg>
+  );
+}
+
+function IconCpu() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" className="w-5 h-5" stroke="currentColor" strokeWidth={2}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m21-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" />
+    </svg>
+  );
+}
+
 export default function Home() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-blue-900 text-white">
-      <div className="container mx-auto px-6 py-20">
-        {/* Hero */}
-        <div className="text-center mb-16">
-          <div className="flex items-center justify-center gap-3 mb-6">
-            {/* SkyForge wordmark */}
-            <svg viewBox="0 0 40 40" fill="none" className="w-14 h-14" xmlns="http://www.w3.org/2000/svg">
-              <rect width="40" height="40" rx="10" fill="url(#sf-grad)" />
-              <path d="M8 28L14 12L20 24L26 12L32 28" stroke="white" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
-              <defs>
-                <linearGradient id="sf-grad" x1="0" y1="0" x2="40" y2="40" gradientUnits="userSpaceOnUse">
-                  <stop stopColor="#a855f7" />
-                  <stop offset="1" stopColor="#3b82f6" />
-                </linearGradient>
-              </defs>
-            </svg>
-            <h1 className="text-7xl font-bold bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent">
-              SkyForge
-            </h1>
-          </div>
-          <p className="text-2xl text-gray-300 mb-4">Browser-Based Development Platform</p>
-          <p className="text-lg text-gray-400 max-w-2xl mx-auto">
-            Create, run, and ship applications directly from the cloud. No downloads, no configuration, just instant productivity.
-          </p>
-        </div>
+    <div className="min-h-screen bg-[#0a041a] text-white relative overflow-hidden bg-grid-pattern overflow-y-auto">
+      {/* Centered Atmospheric Glow */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-gradient-to-r from-purple-900/30 to-indigo-900/30 rounded-full blur-[120px] pointer-events-none"></div>
+      {/* Animated Background Blobs */}
+      <div className="absolute top-0 -left-4 w-96 h-96 bg-purple-900 rounded-full mix-blend-screen filter blur-3xl opacity-30 animate-blob"></div>
+      <div className="absolute top-0 -right-4 w-96 h-96 bg-indigo-900 rounded-full mix-blend-screen filter blur-3xl opacity-30 animate-blob animation-delay-2000"></div>
+      <div className="absolute -bottom-8 left-20 w-96 h-96 bg-violet-900 rounded-full mix-blend-screen filter blur-3xl opacity-30 animate-blob animation-delay-4000"></div>
 
-        {/* Mode Cards */}
-        <div className="grid md:grid-cols-2 gap-6 max-w-3xl mx-auto mb-16">
-          {/* Code Editor */}
-          <Link href="/editor" className="group bg-white/10 backdrop-blur-lg rounded-2xl p-8 border border-white/20 hover:border-purple-400 transition-all hover:shadow-2xl hover:shadow-purple-500/50 block">
-            <div className="text-purple-400 mb-4 group-hover:text-purple-300 transition-colors">
-              <IconCode />
-            </div>
-            <h3 className="text-xl font-bold mb-2 group-hover:text-purple-300 transition-colors">Code Editor</h3>
-            <p className="text-gray-300 text-sm mb-4">
-              Run scripts instantly in 12 languages. Python, Go, Rust, TypeScript, Java, C, C#, Ruby, PHP, Bash and more.
-            </p>
-            <span className="text-purple-400 text-sm font-medium group-hover:text-purple-300">Open Editor →</span>
-          </Link>
+      <div className="container mx-auto px-6 py-12 relative z-10">
+        <div className="flex flex-col xl:flex-row gap-12 items-start justify-center">
 
-          {/* Studio */}
-          <Link href="/studio" className="group bg-white/10 backdrop-blur-lg rounded-2xl p-8 border border-white/20 hover:border-blue-400 transition-all hover:shadow-2xl hover:shadow-blue-500/50 block">
-            <div className="text-blue-400 mb-4 group-hover:text-blue-300 transition-colors">
-              <IconLayers />
-            </div>
-            <h3 className="text-xl font-bold mb-2 group-hover:text-blue-300 transition-colors">
-              Studio
-              <span className="text-xs bg-blue-500/30 text-blue-300 px-2 py-0.5 rounded-full ml-2">NEW</span>
-            </h3>
-            <p className="text-gray-300 text-sm mb-4">
-              Build modern apps with multi-file tabs, live HTML preview, and a code snippets library.
-            </p>
-            <span className="text-blue-400 text-sm font-medium group-hover:text-blue-300">Open Studio →</span>
-          </Link>
-        </div>
-
-        {/* Templates strip */}
-        <div className="max-w-3xl mx-auto mb-16">
-          <Link href="/templates" className="group bg-white/5 backdrop-blur-lg rounded-2xl p-6 border border-white/10 hover:border-green-400 transition-all hover:shadow-2xl hover:shadow-green-500/30 flex items-center justify-between">
-            <div className="flex items-center gap-4">
-              <div className="text-green-400 group-hover:text-green-300 transition-colors">
-                <IconRocket />
+          {/* LEFT SIDEBAR - Tech & Stats (Visible on XL+) */}
+          <aside className="hidden xl:flex flex-col gap-6 w-80 sticky top-20">
+            <div className="bg-white/5 backdrop-blur-md rounded-2xl p-6 border border-white/10">
+              <h4 className="text-sm font-bold text-gray-400 mb-4 uppercase tracking-widest">Platform Stats</h4>
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <span className="text-gray-300 text-sm">Scripts Executed</span>
+                  <span className="text-purple-400 font-mono font-bold">1.2M+</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-gray-300 text-sm">Active Envs</span>
+                  <span className="text-blue-400 font-mono font-bold">150k</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-gray-300 text-sm">Avg Load Time</span>
+                  <span className="text-green-400 font-mono font-bold">42ms</span>
+                </div>
               </div>
-              <div>
-                <h3 className="text-lg font-bold group-hover:text-green-300 transition-colors">
-                  Project Templates
-                  <span className="text-xs bg-green-500/30 text-green-300 px-2 py-0.5 rounded-full ml-2">NEW</span>
+            </div>
+
+            <div className="bg-white/5 backdrop-blur-md rounded-2xl p-6 border border-white/10">
+              <h4 className="text-sm font-bold text-gray-400 mb-4 uppercase tracking-widest">Ecosystem</h4>
+              <div className="grid grid-cols-4 gap-3">
+                {['JS', 'PY', 'RS', 'GO', 'TS', 'JV', 'CPP', 'RB'].map((lang) => (
+                  <div key={lang} className="w-10 h-10 bg-white/10 rounded-lg flex items-center justify-center text-[10px] font-bold hover:bg-purple-500/50 transition-colors cursor-default border border-white/10">
+                    {lang}
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="p-6 rounded-2xl border border-dashed border-white/20 opacity-50">
+              <p className="text-xs text-center text-gray-400 italic">"The future of development is serverless and instant."</p>
+            </div>
+          </aside>
+
+          {/* MAIN CONTENT */}
+          <main className="flex-1 max-w-3xl">
+            {/* Hero */}
+            <div className="text-center mb-16">
+              <div className="flex items-center justify-center gap-3 mb-6 animate-pulse">
+                {/* SkyForge wordmark */}
+                <svg viewBox="0 0 40 40" fill="none" className="w-16 h-16" xmlns="http://www.w3.org/2000/svg">
+                  <rect width="40" height="40" rx="10" fill="url(#sf-grad)" />
+                  <path d="M8 28L14 12L20 24L26 12L32 28" stroke="white" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+                  <defs>
+                    <linearGradient id="sf-grad" x1="0" y1="0" x2="40" y2="40" gradientUnits="userSpaceOnUse">
+                      <stop stopColor="#a855f7" />
+                      <stop offset="1" stopColor="#3b82f6" />
+                    </linearGradient>
+                  </defs>
+                </svg>
+                <h1 className="text-7xl font-bold bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 bg-clip-text text-transparent">
+                  SkyForge
+                </h1>
+              </div>
+              <p className="text-2xl text-white font-medium mb-4">Browser-Based Development Platform</p>
+              <p className="text-lg text-gray-400 leading-relaxed">
+                Create, run, and ship applications directly from the cloud. No downloads, no configuration, just Instant productivity.
+              </p>
+            </div>
+
+            {/* Mode Cards */}
+            <div className="grid md:grid-cols-2 gap-8 mb-16">
+              {/* Code Editor */}
+              <Link href="/editor" className="group relative bg-[#13131a] rounded-3xl p-8 border border-white/10 hover:border-purple-500/50 transition-all hover:-translate-y-2 block overflow-hidden">
+                <div className="absolute top-0 right-0 w-32 h-32 bg-purple-500/10 blur-2xl group-hover:bg-purple-500/20 transition-all"></div>
+                <div className="text-purple-400 mb-6 group-hover:scale-110 transition-transform">
+                  <IconCode />
+                </div>
+                <h3 className="text-2xl font-bold mb-3 group-hover:text-purple-300">Code Editor</h3>
+                <p className="text-gray-400 text-sm mb-6 leading-relaxed">
+                  Run scripts instantly in 12 languages. Python, Go, Rust, TypeScript, Java, C, C#, Ruby, PHP, Bash and more.
+                </p>
+                <div className="flex items-center text-purple-400 font-bold group-hover:gap-2 transition-all">
+                  Launch Environment <span className="opacity-0 group-hover:opacity-100 transition-opacity">→</span>
+                </div>
+              </Link>
+
+              {/* Studio */}
+              <Link href="/studio" className="group relative bg-[#13131a] rounded-3xl p-8 border border-white/10 hover:border-blue-500/50 transition-all hover:-translate-y-2 block overflow-hidden">
+                <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/10 blur-2xl group-hover:bg-blue-500/20 transition-all"></div>
+                <div className="text-blue-400 mb-6 group-hover:scale-110 transition-transform">
+                  <IconLayers />
+                </div>
+                <h3 className="text-2xl font-bold mb-3 group-hover:text-blue-300">
+                  Studio <span className="text-[10px] bg-blue-500 text-white px-2 py-0.5 rounded-full ml-2 align-middle">NEW</span>
                 </h3>
-                <p className="text-gray-400 text-sm">Start from 8 real-world templates: REST API, CLI tools, data pipelines, and more.</p>
+                <p className="text-gray-400 text-sm mb-6 leading-relaxed">
+                  Build modern apps with multi-file tabs, live HTML preview, and a code snippets library.
+                </p>
+                <div className="flex items-center text-blue-400 font-bold group-hover:gap-2 transition-all">
+                  Enter Studio <span className="opacity-0 group-hover:opacity-100 transition-opacity">→</span>
+                </div>
+              </Link>
+            </div>
+
+            {/* Templates strip */}
+            <div className="mb-16">
+              <Link href="/templates" className="group relative bg-gradient-to-r from-green-900/40 to-emerald-900/20 backdrop-blur-sm rounded-3xl p-8 border border-green-500/20 hover:border-green-400/50 transition-all block overflow-hidden">
+                <div className="flex items-center gap-6">
+                  <div className="bg-green-500/20 p-4 rounded-2xl text-green-400 group-hover:scale-110 transition-transform">
+                    <IconRocket />
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="text-xl font-bold text-white mb-1">Project Templates <span className="text-[10px] bg-green-500 text-white px-2 py-0.5 rounded-full ml-2 align-middle">NEW</span></h3>
+                    <p className="text-green-400/80 text-sm font-medium">Start from 8 real-world templates: REST API, CLI tools, data pipelines, and more.</p>
+                  </div>
+                  <span className="text-green-400 font-bold group-hover:gap-2 transition-all">Browse →</span>
+                </div>
+              </Link>
+            </div>
+
+            {/* Feature highlights */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-20">
+              <div className="bg-white/5 rounded-2xl p-6 border border-white/10 hover:bg-white/[0.08] transition-colors text-center">
+                <div className="text-yellow-400 mb-4 flex justify-center"><IconBolt /></div>
+                <h4 className="font-bold mb-2">Instant Setup</h4>
+                <p className="text-gray-500 text-[10px] uppercase tracking-wider leading-tight">No installation, no environment setup, no dependencies to manage</p>
+              </div>
+              <div className="bg-white/5 rounded-2xl p-6 border border-white/10 hover:bg-white/[0.08] transition-colors text-center">
+                <div className="text-blue-400 mb-4 flex justify-center"><IconShield /></div>
+                <h4 className="font-bold mb-2">Secure Execution</h4>
+                <p className="text-gray-500 text-[10px] uppercase tracking-wider leading-tight">Isolated Docker containers with strict resource limits</p>
+              </div>
+              <div className="bg-white/5 rounded-2xl p-6 border border-white/10 hover:bg-white/[0.08] transition-colors text-center">
+                <div className="text-pink-400 mb-4 flex justify-center"><IconBook /></div>
+                <h4 className="font-bold mb-2">Snippets Library</h4>
+                <p className="text-gray-500 text-[10px] uppercase tracking-wider leading-tight">16 ready-to-use snippets: algorithms, patterns, utilities</p>
               </div>
             </div>
-            <span className="text-green-400 text-sm font-medium group-hover:text-green-300 flex-shrink-0">Browse →</span>
-          </Link>
+          </main>
+
+          {/* RIGHT SIDEBAR - Activity & News (Visible on XL+) */}
+          <aside className="hidden xl:flex flex-col gap-6 w-80 sticky top-20">
+            <div className="bg-white/5 backdrop-blur-md rounded-2xl p-6 border border-white/10">
+              <h4 className="text-sm font-bold text-gray-400 mb-4 uppercase tracking-widest">Live Activity</h4>
+              <div className="space-y-6">
+                <div className="flex gap-4">
+                  <div className="w-2 h-2 rounded-full bg-green-500 mt-1.5 animate-pulse shrink-0"></div>
+                  <div>
+                    <p className="text-xs text-gray-300 italic">"Just deployed a React-Vite boilerplate to production."</p>
+                    <span className="text-[10px] text-gray-500 mt-1 block">@dev_alpha • 2m ago</span>
+                  </div>
+                </div>
+                <div className="flex gap-4">
+                  <div className="w-2 h-2 rounded-full bg-blue-500 mt-1.5 shrink-0"></div>
+                  <div>
+                    <p className="text-xs text-gray-300 italic">"Running a heavy Rust build for WASM target..."</p>
+                    <span className="text-[10px] text-gray-500 mt-1 block">@rustacean • 15m ago</span>
+                  </div>
+                </div>
+                <div className="flex gap-4">
+                  <div className="w-2 h-2 rounded-full bg-purple-500 mt-1.5 shrink-0"></div>
+                  <div>
+                    <p className="text-xs text-gray-300 italic">"Piston engine upgraded to v3.12 for Python."</p>
+                    <span className="text-[10px] text-gray-500 mt-1 block">SYSTEM • 1h ago</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-gradient-to-br from-purple-500/20 to-blue-500/20 rounded-2xl p-6 border border-white/10 relative overflow-hidden group">
+              <div className="absolute -right-4 -bottom-4 opacity-10 group-hover:scale-110 transition-transform">
+                <IconZap />
+              </div>
+              <h4 className="font-bold text-white mb-2">SkyForge Premium</h4>
+              <p className="text-xs text-gray-400 mb-4">Unlock unlimited builds, private repos, and GPU acceleration.</p>
+              <button className="w-full bg-white text-black text-xs font-bold py-2 rounded-lg hover:bg-gray-200 transition-colors">
+                Upgrade Now
+              </button>
+            </div>
+
+            <div className="flex items-center justify-between px-2">
+              <span className="text-xs text-gray-500">Service Status</span>
+              <span className="flex items-center gap-1.5 text-[10px] text-green-400 font-bold uppercase tracking-wider">
+                <span className="w-1.5 h-1.5 rounded-full bg-green-400"></span>
+                Operational
+              </span>
+            </div>
+          </aside>
+
         </div>
 
-        {/* Feature highlights */}
-        <div className="grid md:grid-cols-3 gap-6 max-w-3xl mx-auto mb-16">
-          <div className="bg-white/5 rounded-xl p-5 border border-white/10 text-center">
-            <div className="flex justify-center mb-3 text-yellow-400"><IconBolt /></div>
-            <h4 className="font-semibold mb-1 text-sm">Instant Setup</h4>
-            <p className="text-gray-400 text-xs">No installation, no environment setup, no dependencies to manage.</p>
-          </div>
-          <div className="bg-white/5 rounded-xl p-5 border border-white/10 text-center">
-            <div className="flex justify-center mb-3 text-cyan-400"><IconShield /></div>
-            <h4 className="font-semibold mb-1 text-sm">Secure Execution</h4>
-            <p className="text-gray-400 text-xs">Isolated Docker containers with strict resource limits.</p>
-          </div>
-          <div className="bg-white/5 rounded-xl p-5 border border-white/10 text-center">
-            <div className="flex justify-center mb-3 text-pink-400"><IconBook /></div>
-            <h4 className="font-semibold mb-1 text-sm">Snippets Library</h4>
-            <p className="text-gray-400 text-xs">16 ready-to-use snippets: algorithms, patterns, utilities.</p>
-          </div>
-        </div>
-
-        {/* Tech Stack */}
-        <div className="text-center">
-          <p className="text-gray-500 text-sm mb-4">Powered by</p>
-          <div className="flex justify-center gap-8 text-gray-400 text-sm">
-            <span>Next.js</span><span>•</span>
-            <span>Monaco Editor</span><span>•</span>
-            <span className="flex items-center gap-1">
-              <IconDocker />
-              Docker
+        {/* Tech Stack Footer */}
+        <div className="mt-8 pt-12 border-t border-white/5 text-center">
+          <p className="text-gray-500 text-sm mb-6">Built with the world's most robust technologies</p>
+          <div className="flex flex-wrap justify-center gap-x-12 gap-y-6 text-gray-400 text-sm opacity-60">
+            <span className="hover:text-white transition-colors cursor-default">Next.js 15</span>
+            <span className="hover:text-white transition-colors cursor-default">TypeScript</span>
+            <span className="hover:text-white transition-colors cursor-default flex items-center gap-2">
+              <IconDocker /> Docker
             </span>
-            <span>•</span>
-            <span>Express</span>
+            <span className="hover:text-white transition-colors cursor-default">Judge0</span>
+            <span className="hover:text-white transition-colors cursor-default">TailwindCSS</span>
           </div>
         </div>
       </div>
 
       {/* Footer */}
-      <div className="text-center py-6 border-t border-white/10">
-        <p className="text-gray-500 text-sm">
-          Made with <span className="text-red-400">♥</span> by <span className="text-white font-medium">Ronit Das</span>
+      <footer className="text-center py-10 border-t border-white/5 relative z-10 mt-20">
+        <p className="text-gray-500 text-sm mb-2">
+          Made with <span className="text-red-500 animate-pulse">♥</span> by <span className="text-white font-semibold">Ronit Das</span>
         </p>
-      </div>
+        <p className="text-[10px] text-gray-600 uppercase tracking-[0.2em]">© 2026 SkyForge Industries • All Rights Reserved</p>
+      </footer>
     </div>
+  );
+}
+
+function IconZap() {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" className="w-16 h-16">
+      <path d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442a.562.562 0 01.308.976l-4.137 3.597a.562.562 0 00-.19.585l1.1 5.341a.562.562 0 01-.832.605l-4.708-2.825a.562.562 0 00-.563 0l-4.708 2.825a.562.562 0 01-.832-.605l1.1-5.341a.562.562 0 00-.19-.585L1.516 10.42a.562.562 0 01.308-.976l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z" />
+    </svg>
   );
 }

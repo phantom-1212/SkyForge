@@ -39,9 +39,9 @@ export default function RightPanel({
     }, [output, error]);
 
     return (
-        <div className="h-full flex flex-col bg-gray-900">
+        <div className="h-full flex flex-col bg-[#0a041a]">
             {/* Tab Bar — no emojis */}
-            <div className="flex bg-gray-800 border-b border-gray-700">
+            <div className="flex bg-[#110826] border-b border-white/10">
                 {TABS.map((tab) => {
                     const isActive = activeTab === tab.id;
                     return (

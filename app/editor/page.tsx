@@ -191,7 +191,7 @@ export default function EditorPage() {
     const meta = LANGUAGE_META[language];
 
     return (
-        <div className="h-screen flex flex-col bg-gray-900 text-white">
+        <div className="h-screen flex flex-col bg-[#0a041a] text-white">
             {/* Header — slim, no language selector */}
             <header className="bg-gradient-to-r from-purple-600 to-blue-600 px-5 py-2.5 shadow-lg flex items-center justify-between">
                 <div className="flex items-center gap-3">
@@ -229,8 +229,8 @@ export default function EditorPage() {
                 </div>
 
                 {/* Vertical Language Sidebar — between editor and right panel */}
-                <div className="w-14 flex flex-col items-center bg-gray-850 border-x border-gray-700 py-2 gap-1 overflow-y-auto"
-                    style={{ backgroundColor: '#111827' }}>
+                <div className="w-14 flex flex-col items-center bg-[#110826] border-x border-white/10 py-2 gap-1 overflow-y-auto"
+                    style={{ backgroundColor: '#110826' }}>
                     {(Object.keys(LANGUAGE_META) as Language[]).map((lang) => {
                         const m = LANGUAGE_META[lang];
                         const isActive = language === lang;
@@ -277,7 +277,7 @@ export default function EditorPage() {
             </div>
 
             {/* Footer */}
-            <footer className="bg-gray-800 px-4 py-1.5 border-t border-gray-700 flex items-center justify-between text-xs">
+            <footer className="bg-[#110826] px-4 py-1.5 border-t border-white/10 flex items-center justify-between text-xs">
                 <div className="flex items-center gap-3 text-gray-400">
                     <span className="flex items-center gap-1.5">
                         {/* eslint-disable-next-line @next/next/no-img-element */}
